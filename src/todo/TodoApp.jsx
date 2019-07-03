@@ -1,11 +1,25 @@
 import React, {Component} from 'react'
+import {BrowserRouter as Router, Route} from 'react-router-dom'
 
 class TodoApp extends Component {
     render() {
         return (
             <div className="TodoApp">
-                <LoginComponent/>
+                hellomegint
+                <Router>
+                    <div>
+                        <Route path="/login" component={LoginComponent} />
+                        <Route path="/welcome" component={WelcomeComponent} />
+                    </div>
+                </Router>
             </div>
+        )
+    }
+}
+class WelcomeComponent extends Component {
+    render() {
+        return (
+            <div>Welcome Home</div>
         )
     }
 }
@@ -28,8 +42,7 @@ class LoginComponent extends Component {
     }
     loginClicked(e) {
         if(this.state.username === "username" && this.state.password === "alma") {
-            this.setState({showSuccessMessage: true})
-            this.setState({hasLoginFailed: false})
+            this.props.history.push("/welcome")
         }
         else {
             this.setState({hasLoginFailed: true})
