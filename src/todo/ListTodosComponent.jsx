@@ -6,6 +6,7 @@ class ListTodosComponent extends Component {
     constructor(props) {
         super(props)
         this.deleteTodoClicked = this.deleteTodoClicked.bind(this)
+        this.updateTodoClicked = this.updateTodoClicked.bind(this)
         this.refreshTodos = this.refreshTodos.bind(this)
         this.state = {
             todos:[],
@@ -39,6 +40,21 @@ class ListTodosComponent extends Component {
         )
     }
 
+    updateTodoClicked(id) {
+        console.log('update '+ id)
+        this.props.history.push(`/todos/${id}`)
+/*         let username = AuthenticationService.getLoggedInUserName()
+        TodoDataService.deleteTodo(username, id)
+        .then(
+            response => {
+                this.setState({message: `delete of todo ${id} was successful`})
+                this.refreshTodos()
+            }
+        ) */
+    }
+
+
+
     render() {
         return (
             <div>
@@ -52,6 +68,7 @@ class ListTodosComponent extends Component {
                                 <th>Description</th>
                                 <th>Is Completed</th>
                                 <th>Target Date</th>
+                                <th>Update</th>
                                 <th>Delete</th>
                             </tr>
                         </thead>
@@ -64,6 +81,7 @@ class ListTodosComponent extends Component {
                                         <td>{todo.description}</td>
                                         <td>{todo.completed.toString()}</td>
                                         <td>{todo.targetDate.toString()}</td>
+                                        <td><button className="btn btn-success" onClick={() => this.updateTodoClicked(todo.id)}>Update</button></td>
                                         <td><button className="btn btn-warning" onClick={() => this.deleteTodoClicked(todo.id)}>Delete</button></td>
                                     </tr>
                                 )
