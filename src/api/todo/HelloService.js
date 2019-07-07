@@ -10,7 +10,14 @@ class HelloService{
     }
 
     executeHelloBeanPathService(name){
-        return Axios.get(`http://localhost:8080/hellobean/${name}`);
+        let username = 'user'
+        let password = 'password'
+        let basicAuthHeader = 'Basic ' + window.btoa(username + ":" + password)
+        return Axios.get(`http://localhost:8080/hellobean/${name}`, {
+            headers : {
+                authorization: basicAuthHeader
+            }
+        });
     }
 }   
 

@@ -3,6 +3,7 @@ import moment from 'moment'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import TodoDataService from '../api/todo/TodoDataService.js'
 import AuthenticationService from './AuthenticationService.js'
+import { timingSafeEqual } from 'crypto';
 
 class TodoComponent extends Component {
     constructor(props) {
@@ -24,7 +25,23 @@ class TodoComponent extends Component {
             }))
     }
     onSubmit(values){
-        console.log(values)
+        let username = AuthenticationService.getLoggedInUserName()
+        let todo = {
+            id: this.state.id,
+            description: values.description, 
+            targetDate: values.targetDate
+        }
+
+        if (this.state.id === -1) {
+            TodoDataService.createTodo(username, todo)
+                .then(() => this.props.history.push('/todos'))
+        } else {
+            TodoDataService.updateTodo(username, this.state.id, todo)
+                .then(() => this.props.history.push('/todos'))
+        }
+
+
+
     }
     validate(values) {
         let errors = {}
