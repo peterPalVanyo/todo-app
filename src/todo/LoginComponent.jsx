@@ -6,7 +6,7 @@ class LoginComponent extends Component {
         super(props)
         this.state = {
             username: 'peter',
-            password: 'password',
+            password: 'alma',
             hasLoginFailed: false,
             showSuccessMessage: false
         }
@@ -18,14 +18,38 @@ class LoginComponent extends Component {
         this.setState( { [e.target.name]: e.target.value } )
     }
     loginClicked(e) {
-        if(this.state.username === "peter" && this.state.password === "alma") {
+/*         if(this.state.username === "peter" && this.state.password === "alma") {
             AuthenticationService.registerSuccessfulLogin(this.state.username, this.state.password);
             this.props.history.push(`/welcome/${this.state.username}`)
         }
         else {
             this.setState({hasLoginFailed: true})
             this.setState({showSuccessMessage: false})
-        }
+        } */
+
+/*         AuthenticationService
+            .executeBasicAuthenticationService(this.state.username, this.state.password)
+            .then(() => {
+                    console.log(this.state.username, this.state.password)
+                    AuthenticationService.registerSuccessfulLogin(this.state.username, this.state.password)
+                    this.props.history.push(`/welcome/${this.state.username}`)                   
+                }).catch(() => {
+                    this.setState({hasLoginFailed: true})
+                    this.setState({showSuccessMessage: false})
+                }
+            ) */
+
+        AuthenticationService
+            .executeJwcAuthenticationService(this.state.username, this.state.password)
+            .then((response) => {
+                    console.log(this.state.username, this.state.password)
+                    AuthenticationService.registerSuccessfulLoginForJwt(this.state.username, response.data.token)
+                    this.props.history.push(`/welcome/${this.state.username}`)                   
+                }).catch(() => {
+                    this.setState({hasLoginFailed: true})
+                    this.setState({showSuccessMessage: false})
+                }
+            )
     }
     render() {
         return (
